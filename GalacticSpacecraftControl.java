@@ -11,29 +11,38 @@ public class GalacticSpacecraftControl {
         this.direction = direction;
     }
 
-    public void executeCommands(char[] commands) {
+    public boolean executeCommands(char[] commands) {
         for (char command : commands) {
-            switch (command) {
-                case 'f':
-                    moveForward();
-                    break;
-                case 'b':
-                    moveBackward();
-                    break;
-                case 'r':
-                    turnRight();
-                    break;
-                case 'l':
-                    turnLeft();
-                    break;
-                case 'u':
-                    turnUp();
-                    break;
-                case 'd':
-                    turnDown();
-                    break;
+            try {
+                switch (command) {
+                    case 'f':
+                        moveForward();
+                        break;
+                    case 'b':
+                        moveBackward();
+                        break;
+                    case 'r':
+                        turnRight();
+                        break;
+                    case 'l':
+                        turnLeft();
+                        break;
+                    case 'u':
+                        turnUp();
+                        break;
+                    case 'd':
+                        turnDown();
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid command: " + command);
+                        
+                }
+            } catch (IllegalArgumentException e) {
+                System.err.println("Error: " + e.getMessage());
+                return false;
             }
         }
+        return true;
     }
 
     private void moveForward() {
@@ -160,19 +169,34 @@ public class GalacticSpacecraftControl {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        // Get initial position
+        int initialX,initialY,initialZ;
+        char initialDirection;
+       try{
+         // Get initial position
         System.out.print("Enter initial X coordinate: ");
-        int initialX = scanner.nextInt();
+         initialX = scanner.nextInt();
         System.out.print("Enter initial Y coordinate: ");
-        int initialY = scanner.nextInt();
+         initialY = scanner.nextInt();
         System.out.print("Enter initial Z coordinate: ");
-        int initialZ = scanner.nextInt();
+         initialZ = scanner.nextInt();
+        System.out.print("Enter initial direction (N, S, E, W, U, D): ");
+         initialDirection = scanner.next().charAt(0);
+    }catch (java.util.InputMismatchException e) {
+        System.err.println("Error: Invalid input for coordinates");
+        scanner.close();
+        return;
+    }
+       
+        
 
         // Get initial direction
-        System.out.print("Enter initial direction (N, S, E, W, U, D): ");
-        char initialDirection = scanner.next().charAt(0);
-
+        
+        if (initialDirection != 'N' && initialDirection != 'S' && initialDirection != 'E' &&
+        initialDirection != 'W' && initialDirection != 'U' && initialDirection != 'D') {
+        System.err.println("Error: Invalid initial direction.");
+        scanner.close();
+        return;
+    }
         GalacticSpacecraftControl spacecraft = new GalacticSpacecraftControl(initialX, initialY, initialZ, initialDirection);
 
         scanner.nextLine(); // Consume the newline character
@@ -181,12 +205,12 @@ public class GalacticSpacecraftControl {
         System.out.print("Enter commands (e.g., 'f' for forward, 'r' for right, 'u' for up): ");
         String inputCommands = scanner.nextLine().toLowerCase(); // Convert to lowercase
 
-        char[] commands = inputCommands.toCharArray();
-        spacecraft.executeCommands(commands);
-        
+        char[] commands = inputCommands.replaceAll(" ", "").toCharArray();
+        boolean check = spacecraft.executeCommands(commands);
+        if(check){
         System.out.println("Final Position: " + spacecraft.getCurrentPosition());
         System.out.println("Final Direction: " + spacecraft.getCurrentDirection());
-        
+        }
         scanner.close();
     }
    
