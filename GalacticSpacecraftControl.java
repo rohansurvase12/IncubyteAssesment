@@ -10,8 +10,10 @@ public class GalacticSpacecraftControl {
         this.z = z;
         this.direction = direction;
     }
-
+     
+    
     public boolean executeCommands(char[] commands) {
+    
         for (char command : commands) {
             try {
                 switch (command) {
@@ -45,7 +47,7 @@ public class GalacticSpacecraftControl {
         return true;
     }
 
-    private void moveForward() {
+    public void moveForward() {
         switch (direction) {
             case 'N':
                 y++;
@@ -68,7 +70,7 @@ public class GalacticSpacecraftControl {
         }
     }
 
-    private void moveBackward() {
+    public void moveBackward() {
         switch (direction) {
             case 'N':
                 y--;
@@ -91,7 +93,7 @@ public class GalacticSpacecraftControl {
         }
     }
 
-    private void turnRight() {
+    public void turnRight() {
         switch (direction) {
             case 'N':
                 direction = 'E';
@@ -114,7 +116,7 @@ public class GalacticSpacecraftControl {
         }
     }
 
-    private void turnLeft() {
+    public void turnLeft() {
         switch (direction) {
             case 'N':
                 direction = 'W';
@@ -137,7 +139,7 @@ public class GalacticSpacecraftControl {
         }
     }
 
-    private void turnUp() {
+    public void turnUp() {
         switch (direction) {
             case 'N':
             case 'S':
@@ -148,7 +150,7 @@ public class GalacticSpacecraftControl {
         }
     }
 
-    private void turnDown() {
+    public void turnDown() {
         switch (direction) {
             case 'N':
             case 'S':
