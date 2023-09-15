@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class GalacticSpacecraftControl {
     private int x, y, z;
     private char direction;
@@ -11,7 +13,6 @@ public class GalacticSpacecraftControl {
 
     public void executeCommands(char[] commands) {
         for (char command : commands) {
-            System.out.println(this.direction);
             switch (command) {
                 case 'f':
                     moveForward();
@@ -158,10 +159,35 @@ public class GalacticSpacecraftControl {
     }
 
     public static void main(String[] args) {
-        GalacticSpacecraftControl spacecraft = new GalacticSpacecraftControl(0, 0, 0, 'N');
-        char[] commands = {'f', 'r', 'u', 'b', 'l'};
+        Scanner scanner = new Scanner(System.in);
+
+        // Get initial position
+        System.out.print("Enter initial X coordinate: ");
+        int initialX = scanner.nextInt();
+        System.out.print("Enter initial Y coordinate: ");
+        int initialY = scanner.nextInt();
+        System.out.print("Enter initial Z coordinate: ");
+        int initialZ = scanner.nextInt();
+
+        // Get initial direction
+        System.out.print("Enter initial direction (N, S, E, W, U, D): ");
+        char initialDirection = scanner.next().charAt(0);
+
+        GalacticSpacecraftControl spacecraft = new GalacticSpacecraftControl(initialX, initialY, initialZ, initialDirection);
+
+        scanner.nextLine(); // Consume the newline character
+
+        // Get commands
+        System.out.print("Enter commands (e.g., 'f' for forward, 'r' for right, 'u' for up): ");
+        String inputCommands = scanner.nextLine().toLowerCase(); // Convert to lowercase
+
+        char[] commands = inputCommands.toCharArray();
         spacecraft.executeCommands(commands);
+        
         System.out.println("Final Position: " + spacecraft.getCurrentPosition());
         System.out.println("Final Direction: " + spacecraft.getCurrentDirection());
+        
+        scanner.close();
     }
+   
 }
